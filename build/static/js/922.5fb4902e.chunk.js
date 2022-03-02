@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkreact_router_quotes=self.webpackChunkreact_router_quotes||[]).push([[922],{922:function(e,r,t){t.r(r);var u=t(184);r.default=function(){return(0,u.jsx)("div",{className:"centered",children:(0,u.jsx)("p",{children:"Page not found!"})})}}}]);
+//# sourceMappingURL=922.5fb4902e.chunk.js.map
