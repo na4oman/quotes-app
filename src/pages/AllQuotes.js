@@ -1,15 +1,31 @@
 import QuoteList from '../components/quotes/QuoteList'
-
-const DUMMY_DATA = [
-  { id: 'q1', author: 'Nasko', text: 'Learning React is great!' },
-  { id: 'q2', author: 'Atanas', text: 'Watching TV is loosing time.' },
-  { id: 'q3', author: 'Petya', text: 'Reading books is fantastic!' },
-]
+import { useGetQuotesQuery } from '../services/http'
+import LoadingSpinner from '../components/UI/LoadingSpinner'
+import NoQuotesFound from '../components/quotes//NoQuotesFound'
+import { transformedData } from '../lib/api'
 
 const AllQuotes = () => {
+  const { data, error, isLoading, isSuccess } = useGetQuotesQuery()
+
+  const loadedQuotes = transformedData(data)
+
+  if (isLoading) {
+    return (
+      <div className='centered'>
+        <LoadingSpinner />
+      </div>
+    )
+  }
+
+  if (error) return <p className='centered focused'>{error.data}</p>
+
+  if (isSuccess && (!loadedQuotes || loadedQuotes.length === 0)) {
+    return <NoQuotesFound />
+  }
+
   return (
     <section>
-      <QuoteList quotes={DUMMY_DATA} />
+      <QuoteList quotes={loadedQuotes} />
     </section>
   )
 }

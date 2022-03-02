@@ -1,25 +1,30 @@
 import { useParams, Link, Routes, Route } from 'react-router-dom'
 import HighlightedQuote from '../components/quotes/HighlightedQuote'
 import Comments from '../components/comments/Comments'
-
-const DUMMY_DATA = [
-  { id: 'q1', author: 'Nasko', text: 'Learning React is great!' },
-  { id: 'q2', author: 'Atanas', text: 'Watching TV is loosing time.' },
-  { id: 'q3', author: 'Petya', text: 'Reading books is fantastic!' },
-]
+import { useGetQuoteQuery } from '../services/http'
+import LoadingSpiner from '../components/UI/LoadingSpinner'
 
 const QuoteDetail = () => {
   const params = useParams()
+  const { data, error, isLoading, isSuccess } = useGetQuoteQuery(params.quoteId)
 
-  const quote = DUMMY_DATA.find(el => el.id === params.quoteId)
+  if (isLoading) {
+    return (
+      <div className='centered'>
+        <LoadingSpiner />
+      </div>
+    )
+  }
 
-  if (!quote) {
+  if (error) return <p className='centered focused'>{error.data}</p>
+
+  if (!isSuccess) {
     return <p>No quote found.</p>
   }
 
   return (
     <section>
-      <HighlightedQuote text={quote.text} author={quote.author} />
+      <HighlightedQuote text={data.text} author={data.author} />
       <Routes>
         <Route
           path=''

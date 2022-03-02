@@ -15,6 +15,9 @@ const QuoteForm = props => {
     const enteredText = textInputRef.current.value
 
     // optional: Could validate here
+    if (enteredAuthor.trim().length === 0 || enteredText.trim().length === 0) {
+      return alert('Please enter valid fileds (not empty).')
+    }
 
     props.onAddQuote({ author: enteredAuthor, text: enteredText })
   }
